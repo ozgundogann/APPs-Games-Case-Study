@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class CharacterPhysics : MonoBehaviour
 {
-    public Vector3 velocity;
+    [SerializeField] private Vector3 velocity;
 
     [Header("Gravity Resources")]
     [SerializeField] private float defaultGravity = -9.81f;
@@ -21,6 +22,14 @@ public class CharacterPhysics : MonoBehaviour
     private bool allowedToCheck = true;
 
     private Coroutine newRoutine;
+
+    public event Action OnPlatformCollisionEnter; 
+
+    public Vector3 Velocity
+    {
+        get => velocity;
+        set => velocity = value;
+    }
 
     private void Start()
     {
@@ -57,7 +66,9 @@ public class CharacterPhysics : MonoBehaviour
         //Gets PlatformBoost Script and use its polymorph function.
         var platform = hit.collider.GetComponent<PlatformBoost>();
         platform.PlatformResponsibility(this);
-                    
+        
+        OnPlatformCollisionEnter?.Invoke();
+        
         if (newRoutine != null)
         {
             StopCoroutine(newRoutine);
@@ -92,4 +103,21 @@ public class CharacterPhysics : MonoBehaviour
     {
         gravity = defaultGravity;
     }
+
+    
+    public void DecreaseVelocity()
+    {
+        // Mevcut velocity'yi al
+        Vector3 currentVelocity = velocity;
+    
+        // Hedef velocity'yi sıfırlamak
+        Vector3 targetVelocity = 0.5f * currentVelocity;
+
+        // DOTween ile smooth geçiş
+        DOTween.To(() => currentVelocity, 
+            v => velocity = v, 
+            targetVelocity, 
+            0.2f);
+    }
+
 }
