@@ -11,6 +11,7 @@ public class PlatformBoost : Platforms
 
     private void ApplyForceVertically(CharacterPhysics chPhysic)
     {
-        chPhysic.velocity = new Vector3(chPhysic.velocity.x, forceAmount, chPhysic.velocity.z);
+        chPhysic.Velocity = Vector3.zero;
+        chPhysic.Velocity = new Vector3(chPhysic.Velocity.x, forceAmount, chPhysic.Velocity.z);
     }
 }
