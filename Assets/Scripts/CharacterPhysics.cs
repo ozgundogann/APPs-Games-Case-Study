@@ -8,7 +8,6 @@ using UnityEngine.Serialization;
 public class CharacterPhysics : MonoBehaviour
 {
     public Vector3 velocity;
-    [SerializeField] private Vector3 launchForce;
 
     [Header("Gravity Resources")]
     [SerializeField] private float defaultGravity = -9.81f;
@@ -17,6 +16,11 @@ public class CharacterPhysics : MonoBehaviour
     [Header("Bounce Resources")]
     [SerializeField] private float bounciness = 0.8f;
     [SerializeField] private float detectionDistance;
+
+    [SerializeField] private float checkCoolDown = 1f;
+    private bool allowedToCheck = true;
+
+    private Coroutine newRoutine;
 
     private void Start()
     {
@@ -30,9 +34,42 @@ public class CharacterPhysics : MonoBehaviour
         Vector3 moveDirection = velocity * Time.deltaTime;
         
         if (CheckCollision(moveDirection, out var hit))
-            Bounce(hit);
+        {
+            if (hit.collider.CompareTag("BoostPlatform"))
+            {
+                HandlePlatformBoost(hit);
+            }
+            else
+            {
+                Bounce(hit);
+            }
+        }
         
         transform.position += velocity * Time.deltaTime;
+    }
+
+    private void HandlePlatformBoost(RaycastHit hit)
+    {
+        if (!allowedToCheck) return;
+        
+        allowedToCheck = false;
+
+        //Gets PlatformBoost Script and use its polymorph function.
+        var platform = hit.collider.GetComponent<PlatformBoost>();
+        platform.PlatformResponsibility(this);
+                    
+        if (newRoutine != null)
+        {
+            StopCoroutine(newRoutine);
+        }
+                    
+        newRoutine = StartCoroutine(nameof(CheckProcessCooldown));
+    }
+
+    IEnumerator CheckProcessCooldown()
+    {
+        yield return new WaitForSeconds(checkCoolDown);
+        allowedToCheck = true;
     }
 
     private bool CheckCollision(Vector3 moveDirection, out RaycastHit hit)
@@ -49,10 +86,7 @@ public class CharacterPhysics : MonoBehaviour
 
         velocity *= bounciness;
     }
-    public void ApplyForce()
-    {
-        velocity += launchForce;
-    }
+    
 
     public void SetDefaultGravityValue()
     {

@@ -1,7 +1,6 @@
-﻿namespace DefaultNamespace
+﻿using UnityEngine;
+
+public abstract class Platforms : MonoBehaviour
 {
-    public class Platforms
-    {
-        
-    }
+    public abstract void PlatformResponsibility(CharacterPhysics chPhysic);
 }
