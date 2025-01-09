@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public Animator animator;
     public CharacterPhysics characterPhysics;
     public Transform characterMesh;
+    public Transform topOfStick;
     public ManipulateStickAnimation stickAnimation;
     
 

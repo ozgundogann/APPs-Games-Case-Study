@@ -6,6 +6,9 @@ public class ChargingState : IPlayerStateNode
     {
         playerManager.stickAnimation.enabled = true;
         playerManager.currentPlayerState = PlayerStates.CHARGING;
+        
+        playerManager.characterPhysics.gameObject.transform.SetParent(playerManager.topOfStick);
+        playerManager.characterPhysics.gameObject.transform.localPosition = Vector3.zero; 
 
         playerManager.firstCamera.Priority = 20;
     }

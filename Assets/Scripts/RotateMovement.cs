@@ -15,6 +15,6 @@ public class RotateMovement : MonoBehaviour
 
     private void HandleRotateMovement()
     {
-        meshRoot.RotateAround(meshRoot.position, Vector3.right, Time.deltaTime * rotateSpeed);
+        meshRoot.RotateAround(meshRoot.position, transform.right, Time.deltaTime * rotateSpeed);
     }
 }

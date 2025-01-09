@@ -12,6 +12,7 @@ public class CharacterPhysics : MonoBehaviour
 
     [Header("Gravity Resources")]
     [SerializeField] private float defaultGravity = -9.81f;
+    [SerializeField] private float gravityReduceRate = 0.2f;
     public float gravity;
     
     [Header("Velocity Resources")] 
@@ -55,7 +56,10 @@ public class CharacterPhysics : MonoBehaviour
             }
             else
             {
-                CheckGround(hit);
+                if (CheckGround(hit))
+                {
+                    //return;
+                }
                 Bounce(hit);
             }
         }
@@ -107,10 +111,12 @@ public class CharacterPhysics : MonoBehaviour
         velocity *= bounciness;
     }
 
-    private void CheckGround(RaycastHit hit)
+    private bool CheckGround(RaycastHit hit)
     {
-        if (hit.collider.CompareTag("Ground"))
-            OnGroundTouch?.Invoke();
+        if (!hit.collider.CompareTag("Ground")) return false;
+        OnGroundTouch?.Invoke();
+        return true;
+
     }
 
     public void ThrowPlayerWithVelocity(Vector3 force)
@@ -118,18 +124,26 @@ public class CharacterPhysics : MonoBehaviour
         velocity = force;
     }
 
+    public void ReduceGravity()
+    {
+        gravity *= gravityReduceRate;
+    }
     public void SetDefaultGravityValue()
     {
         gravity = defaultGravity;
     }
 
+    public void DisableGravity()
+    {
+        gravity = 0;
+    }
     
     public void DecreaseVelocity()
     {
         var currentVelocity = velocity;
-        var targetVelocity = new Vector3(currentVelocity.x * decreaseRate, 
+        var targetVelocity = new Vector3(currentVelocity.x, 
             currentVelocity.y > 0 ? currentVelocity.y * decreaseRate : currentVelocity.y, 
-            currentVelocity.z * decreaseRate);
+            currentVelocity.z);
 
 
         newTween?.Kill();
@@ -138,11 +152,6 @@ public class CharacterPhysics : MonoBehaviour
                 targetVelocity,
                 1f) 
             .SetEase(Ease.OutCubic);
-    }
-
-    public void DisableGravity()
-    {
-        gravity = 0;
     }
 
 }

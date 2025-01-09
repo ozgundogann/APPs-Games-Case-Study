@@ -11,6 +11,7 @@ public class FlyingStateNode : IPlayerStateNode
         playerManager.flyMovement.enabled = true;
 
         playerManager.characterPhysics.DecreaseVelocity();
+        playerManager.characterPhysics.ReduceGravity();
         playerManager.characterMesh.DOLocalRotate(new Vector3(90, 0, 0), 0.1f);
         
         playerManager.animator.SetBool(IsFlying, true);
@@ -24,6 +25,8 @@ public class FlyingStateNode : IPlayerStateNode
     {
         playerManager.flyMovement.enabled = false;
         playerManager.animator.SetBool(IsFlying, false);
+        playerManager.characterPhysics.SetDefaultGravityValue();
+
 
     }
 }
