@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7651930902582833305}
   - component: {fileID: 7386176856405914189}
+  - component: {fileID: 1567072688847504440}
   m_Layer: 0
   m_Name: CylinderPlatform
   m_TagString: BoostPlatform
@@ -131,12 +132,26 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 0.1, z: 1}
   m_Center: {x: 0, y: 1.04, z: 0}
+--- !u!114 &1567072688847504440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7511406302432035423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77ea07ebf4b4b20af11ff9dd447f90c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upwardForce: 20
+  forwardForce: 10
 --- !u!1 &7989758751658110461
 GameObject:
   m_ObjectHideFlags: 0

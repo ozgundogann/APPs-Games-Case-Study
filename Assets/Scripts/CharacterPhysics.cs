@@ -14,15 +14,20 @@ public class CharacterPhysics : MonoBehaviour
     [SerializeField] private float defaultGravity = -9.81f;
     public float gravity;
     
+    [Header("Velocity Resources")] 
+    [SerializeField] private float decreaseRate = 0.2f;
+    
     [Header("Bounce Resources")]
     [SerializeField] private float bounciness = 0.8f;
     [SerializeField] private float detectionDistance;
 
+    public event Action OnGroundTouch; 
+    
     [SerializeField] private float checkCoolDown = 1f;
     private bool allowedToCheck = true;
 
     private Coroutine newRoutine;
-
+    private Tween newTween;
     public event Action OnPlatformCollisionEnter; 
 
     public Vector3 Velocity
@@ -50,11 +55,15 @@ public class CharacterPhysics : MonoBehaviour
             }
             else
             {
+                CheckGround(hit);
                 Bounce(hit);
             }
         }
-        
-        transform.position += velocity * Time.deltaTime;
+
+        var forwardMovement = transform.forward * (velocity.z * Time.deltaTime);
+        var verticalMovement = Vector3.up * (velocity.y * Time.deltaTime);
+
+        transform.position += forwardMovement + verticalMovement;
     }
 
     private void HandlePlatformBoost(RaycastHit hit)
@@ -97,7 +106,17 @@ public class CharacterPhysics : MonoBehaviour
 
         velocity *= bounciness;
     }
-    
+
+    private void CheckGround(RaycastHit hit)
+    {
+        if (hit.collider.CompareTag("Ground"))
+            OnGroundTouch?.Invoke();
+    }
+
+    public void ThrowPlayerWithVelocity(Vector3 force)
+    {
+        velocity = force;
+    }
 
     public void SetDefaultGravityValue()
     {
@@ -107,17 +126,23 @@ public class CharacterPhysics : MonoBehaviour
     
     public void DecreaseVelocity()
     {
-        // Mevcut velocity'yi al
-        Vector3 currentVelocity = velocity;
-    
-        // Hedef velocity'yi sıfırlamak
-        Vector3 targetVelocity = 0.5f * currentVelocity;
+        var currentVelocity = velocity;
+        var targetVelocity = new Vector3(currentVelocity.x * decreaseRate, 
+            currentVelocity.y > 0 ? currentVelocity.y * decreaseRate : currentVelocity.y, 
+            currentVelocity.z * decreaseRate);
 
-        // DOTween ile smooth geçiş
-        DOTween.To(() => currentVelocity, 
-            v => velocity = v, 
-            targetVelocity, 
-            0.2f);
+
+        newTween?.Kill();
+        newTween = DOTween.To(() => currentVelocity,
+                v => velocity = v,
+                targetVelocity,
+                1f) 
+            .SetEase(Ease.OutCubic);
+    }
+
+    public void DisableGravity()
+    {
+        gravity = 0;
     }
 
 }
