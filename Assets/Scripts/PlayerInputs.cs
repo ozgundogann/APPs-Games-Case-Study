@@ -11,7 +11,7 @@ public class PlayerInputs : MonoBehaviour
     private float swipeThreshold = 50f;
     private bool isTouchHold;
 
-    public event Action OnTouchBegin;
+    public event Action<Vector2> OnTouchBegin;
     public event Action OnTouchEnd;
     public event Action<Vector2> OnTouchHold;
 
@@ -26,7 +26,6 @@ public class PlayerInputs : MonoBehaviour
         switch (touch.phase)
         {
             case TouchPhase.Began:
-                Debug.Log("PlayerInput Began");
                 HandleTouchBegan(touch);
                 break;
             case TouchPhase.Moved:
@@ -65,8 +64,10 @@ public class PlayerInputs : MonoBehaviour
     private void HandleTouchBegan(Touch touch)
     {
         _touchStartPos = touch.position;
+        _currentTouchPos = touch.position;
+
         isTouchHold = true;
-        OnTouchBegin?.Invoke();
+        OnTouchBegin?.Invoke(touch.position);
     }
 
 }

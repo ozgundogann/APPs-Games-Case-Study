@@ -10,6 +10,7 @@ public class CharacterMovements : MonoBehaviour
     public PlayerInputs playerInputs;
     public Animator animator;
     public CharacterPhysics characterPhysics;
+    public ManipulateStickAnimation stickAnimation;
     
 
     private IPlayerStateNode _currentPlayerStateNode;
@@ -67,7 +68,7 @@ public class CharacterMovements : MonoBehaviour
         ChangeStateNode(new RollingStateNode());
     }
 
-    private void HandleTouchBegin()
+    private void HandleTouchBegin(Vector2 touchPos)
     {
         ChangeStateNode(new FlyingStateNode());
     }
