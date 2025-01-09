@@ -1,6 +1,6 @@
 ﻿public interface IPlayerStateNode
 {
-    void EnterState(CharacterMovements characterMovements);
-    void UpdateState(CharacterMovements characterMovements);
-    void ExitState(CharacterMovements characterMovements);
+    void EnterState(PlayerManager playerManager);
+    void UpdateState(PlayerManager playerManager);
+    void ExitState(PlayerManager playerManager);
 }

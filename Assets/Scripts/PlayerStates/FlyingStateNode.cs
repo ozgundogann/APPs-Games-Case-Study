@@ -5,24 +5,24 @@ public class FlyingStateNode : IPlayerStateNode
 {
     private static readonly int IsFlying = Animator.StringToHash("isFlying");
 
-    public void EnterState(CharacterMovements characterMovements)
+    public void EnterState(PlayerManager playerManager)
     {
-        characterMovements.currentPlayerState = PlayerStates.FLYING; 
-        characterMovements.flyMovement.enabled = true;
+        playerManager.currentPlayerState = PlayerStates.FLYING; 
+        playerManager.flyMovement.enabled = true;
 
-        characterMovements.characterPhysics.DecreaseVelocity();
+        playerManager.characterPhysics.DecreaseVelocity();
         
-        characterMovements.animator.SetBool(IsFlying, true);
+        playerManager.animator.SetBool(IsFlying, true);
     }
 
-    public void UpdateState(CharacterMovements characterMovements)
+    public void UpdateState(PlayerManager playerManager)
     {
     }
 
-    public void ExitState(CharacterMovements characterMovements)
+    public void ExitState(PlayerManager playerManager)
     {
-        characterMovements.flyMovement.enabled = false;
-        characterMovements.animator.SetBool(IsFlying, false);
+        playerManager.flyMovement.enabled = false;
+        playerManager.animator.SetBool(IsFlying, false);
 
     }
 }

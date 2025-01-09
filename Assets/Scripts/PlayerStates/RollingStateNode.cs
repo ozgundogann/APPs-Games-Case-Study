@@ -1,17 +1,18 @@
 ﻿public class RollingStateNode : IPlayerStateNode
 {
-    public void EnterState(CharacterMovements characterMovements)
+    public void EnterState(PlayerManager playerManager)
     {
-        characterMovements.currentPlayerState = PlayerStates.ROLLING;
-        characterMovements.rotateMovement.enabled = true;
+        playerManager.currentPlayerState = PlayerStates.ROLLING;
+        playerManager.rotateMovement.enabled = true;
+        playerManager.characterPhysics.enabled = true;
     }
 
-    public void UpdateState(CharacterMovements characterMovements)
+    public void UpdateState(PlayerManager playerManager)
     {
     }
 
-    public void ExitState(CharacterMovements characterMovements)
+    public void ExitState(PlayerManager playerManager)
     {
-        characterMovements.rotateMovement.enabled = false;
+        playerManager.rotateMovement.enabled = false;
     }
 }
