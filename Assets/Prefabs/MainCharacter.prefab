@@ -41,7 +41,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2158117167958065587}
-  - component: {fileID: 6557657531664965110}
   - component: {fileID: 2257766954527610809}
   - component: {fileID: 2327551331929915957}
   - component: {fileID: 7193437597620355727}
@@ -68,25 +67,6 @@ Transform:
   - {fileID: 5289988041434556863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6557657531664965110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4884668578726308009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a75aba50e056488f8c31a91dd601e2e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flyMovement: {fileID: 7193437597620355727}
-  rotateMovement: {fileID: 2327551331929915957}
-  currentPlayerState: 0
-  currentGameState: 0
-  playerInputs: {fileID: 0}
-  animator: {fileID: 0}
-  characterPhysics: {fileID: 0}
 --- !u!114 &2257766954527610809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,10 +81,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
   defaultGravity: -9.81
+  gravityReduceRate: 0.2
   gravity: -9.81
-  decreaseRate: 0.2
+  decreaseRate: 0.5
   bounciness: 0.4
-  detectionDistance: 2
+  detectionDistance: 0.1
   checkCoolDown: 1
 --- !u!114 &2327551331929915957
 MonoBehaviour:
@@ -132,15 +113,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aafc3d4d8154144a47aafa6ed227874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 10
+  flySpeed: 50
   maxRotationAngle: 45
-  deadZone: 50
-  moveDirection: 0
-  leanAngle: 40
-  moveSpeed: 100
+  leanAngle: 30
+  rotationSpeed: 50
+  leanSpeed: 5
   rollSpeed: 5
   characterMesh: {fileID: 5289988041434556863}
-  inputs: {fileID: 0}
+  dynamicJoystick: {fileID: 0}
+  characterPhysics: {fileID: 2257766954527610809}
 --- !u!1001 &5095045230882009083
 PrefabInstance:
   m_ObjectHideFlags: 0
