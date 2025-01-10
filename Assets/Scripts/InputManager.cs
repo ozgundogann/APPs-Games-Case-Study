@@ -1,21 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerInputs : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
-    private Vector2 _touchStartPos;
-    private Vector2 _touchEndPos;
-    private Vector2 _currentTouchPos;
-
     private bool isSwiping = false;
     private float swipeThreshold = 50f;
     private bool isTouchHold;
 
-    public event Action<Vector2> OnTouchBegin;
-    public event Action OnTouchEnd;
-    public event Action<Vector2> OnTouchHold;
+    public static event Action<Vector2> OnTouchBegin;
+    public static event Action OnTouchEnd;
 
-    public Vector2 CurrentTouchPos => _currentTouchPos;
+    public static Vector2 CurrentTouchPos;
+    public static Vector2 TouchStartPos;
+    public static Vector2 TouchEndPos;
 
     private void Update()
     {
@@ -28,11 +25,11 @@ public class PlayerInputs : MonoBehaviour
             case TouchPhase.Began:
                 HandleTouchBegan(touch);
                 break;
-            case TouchPhase.Moved:
-                HandleTouchMoved(touch);
-                break;
             case TouchPhase.Ended:
                 HandleTouchEnded(touch);
+                break;
+            case TouchPhase.Moved:
+                HandleTouchMoved(touch);
                 break;
             case TouchPhase.Stationary:
             case TouchPhase.Canceled:
@@ -42,29 +39,21 @@ public class PlayerInputs : MonoBehaviour
     }
 
     private void HandleTouchMoved(Touch touch)
-    {   
-        if (!isSwiping && Vector2.Distance(touch.position, _touchStartPos) > swipeThreshold)
-        {
-            isSwiping = true;
-        }
-        else
-        {
-            _currentTouchPos = touch.position;
-            OnTouchHold?.Invoke(_currentTouchPos);
-        }
+    {
+        CurrentTouchPos = touch.position;
     }
 
     private void HandleTouchEnded(Touch touch)
     {
-        _touchEndPos = touch.position;
+        TouchEndPos = touch.position;
         OnTouchEnd?.Invoke();
         isTouchHold = false;
     }
 
     private void HandleTouchBegan(Touch touch)
     {
-        _touchStartPos = touch.position;
-        _currentTouchPos = touch.position;
+        TouchStartPos = touch.position;
+        CurrentTouchPos = touch.position;
 
         isTouchHold = true;
         OnTouchBegin?.Invoke(touch.position);

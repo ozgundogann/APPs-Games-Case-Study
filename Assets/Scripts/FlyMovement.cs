@@ -15,7 +15,7 @@ public class FlyMovement : MonoBehaviour
 
     [SerializeField] private Transform characterMesh;
     [SerializeField] private DynamicJoystick dynamicJoystick;
-    [SerializeField] private CharacterPhysics characterPhysics;
+    [SerializeField] private CharacterMovement characterMovement;
     
     private float horizontal;
     private Vector3 targetPos;

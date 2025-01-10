@@ -1,7 +1,7 @@
 ﻿public enum GameStates
 {
     NONE,
-    LOBBY,
+    STARTGAME,
     INGAME,
     GAMEOVER
 }

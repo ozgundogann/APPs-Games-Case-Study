@@ -3,19 +3,13 @@ using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.Serialization;
 
-public class PlatformBoost : Platforms
+public class PlatformBoost : Platform
 {
-    [SerializeField] private float upwardForce;
-    [SerializeField] private float forwardForce;
+    [SerializeField] private float impulse;
     
 
-    public override void PlatformResponsibility(CharacterPhysics chPhysic)
+    public override void PlatformResponsibility(CharacterMovement chMovement)
     {
-        ApplyForceVertically(chPhysic);
-    }
-
-    private void ApplyForceVertically(CharacterPhysics chPhysic)
-    {
-        chPhysic.Velocity = new Vector3(chPhysic.Velocity.x, upwardForce, forwardForce);
+        chMovement.PerformBoosterJump(impulse);
     }
 }
