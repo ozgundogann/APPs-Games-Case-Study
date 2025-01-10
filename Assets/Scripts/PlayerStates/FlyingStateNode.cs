@@ -5,28 +5,38 @@ public class FlyingStateNode : IPlayerStateNode
 {
     private static readonly int IsFlying = Animator.StringToHash("isFlying");
 
-    public void EnterState(PlayerManager playerManager)
+    public void EnterState(StateManager stateManager)
     {
-        playerManager.currentPlayerState = PlayerStates.FLYING; 
-        playerManager.flyMovement.enabled = true;
-
-        playerManager.characterPhysics.DecreaseVelocity();
-        playerManager.characterPhysics.ReduceGravity();
-        playerManager.characterMesh.DOLocalRotate(new Vector3(90, 0, 0), 0.1f);
-        
-        playerManager.animator.SetBool(IsFlying, true);
+        InitializeFlyingState(stateManager);
+        ApplyJumpLandingEffects(stateManager);
     }
 
-    public void UpdateState(PlayerManager playerManager)
+    public void UpdateState(StateManager stateManager)
     {
     }
-
-    public void ExitState(PlayerManager playerManager)
+    
+    public void ExitState(StateManager stateManager)
     {
-        playerManager.flyMovement.enabled = false;
-        playerManager.animator.SetBool(IsFlying, false);
-        playerManager.characterPhysics.SetDefaultGravityValue();
-
-
+        ResetFlyingState(stateManager);
+    }
+    
+    private static void InitializeFlyingState(StateManager stateManager)
+    {
+        stateManager.currentPlayerState = PlayerStates.FLYING;
+        stateManager.flyMovement.enabled = true;
+        stateManager.animator.SetBool(IsFlying, true);
+    }
+    private static void ApplyJumpLandingEffects(StateManager stateManager)
+    {
+        //stateManager.characterMovement.DecreaseVelocity();
+        stateManager.characterMovement.ProcessFlyState();
+        stateManager.characterMesh.DOLocalRotate(new Vector3(90, 0, 0), 0.1f);
+    }
+    private static void ResetFlyingState(StateManager stateManager)
+    {
+        stateManager.flyMovement.enabled = false;
+        stateManager.animator.SetBool(IsFlying, false);
+        stateManager.characterMovement.SetDefaultGravityValue();
+        stateManager.characterMovement.ExitFlyState();
     }
 }

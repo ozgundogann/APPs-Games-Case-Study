@@ -2,27 +2,43 @@
 
 public class ChargingState : IPlayerStateNode
 {
-    public void EnterState(PlayerManager playerManager)
+    public void EnterState(StateManager stateManager)
     {
-        playerManager.stickAnimation.enabled = true;
-        playerManager.currentPlayerState = PlayerStates.CHARGING;
-        
-        playerManager.characterPhysics.gameObject.transform.SetParent(playerManager.topOfStick);
-        playerManager.characterPhysics.gameObject.transform.localPosition = Vector3.zero; 
+        InitializeChargingState(stateManager);
 
-        playerManager.firstCamera.Priority = 20;
+        AttachCharacterToStick(stateManager);
+
+        stateManager.firstCamera.Priority = 20;
     }
 
-    public void UpdateState(PlayerManager playerManager)
+    public void UpdateState(StateManager stateManager)
     {
     }
 
-    public void ExitState(PlayerManager playerManager)
+    public void ExitState(StateManager stateManager)
     {
-        playerManager.stickAnimation.enabled = false;
-        playerManager.firstCamera.Priority = 0;
+        stateManager.stickThrowMechanics.enabled = false;
+        stateManager.firstCamera.Priority = 0;
 
-        playerManager.characterPhysics.gameObject.transform.SetParent(null);
-        playerManager.characterPhysics.gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+        DetachCharacterFromStick(stateManager);
+    }
+
+    private static void InitializeChargingState(StateManager stateManager)
+    {
+        stateManager.stickThrowMechanics.enabled = true;
+        stateManager.currentPlayerState = PlayerStates.CHARGING;
+    }
+
+    private static void AttachCharacterToStick(StateManager stateManager)
+    {
+        GameObject gameObject;
+        (gameObject = stateManager.characterMovement.gameObject).transform.SetParent(stateManager.topOfStick);
+        gameObject.transform.localPosition = Vector3.zero;
+    }
+
+    private static void DetachCharacterFromStick(StateManager stateManager)
+    {
+        stateManager.characterMovement.gameObject.transform.SetParent(null);
+        stateManager.characterMovement.gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 }
