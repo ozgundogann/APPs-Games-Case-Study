@@ -10,6 +10,8 @@ public class SectionPositioner : MonoBehaviour
     [SerializeField] private Transform player; 
     [SerializeField] private int initialPlatforms = 5;
 
+    [SerializeField] private int checkPerSecond = 10;
+    
     private float platformLength;
     private Vector3 nextSpawnPosition;
     private Coroutine newRoutine;
@@ -40,12 +42,15 @@ public class SectionPositioner : MonoBehaviour
 
     private IEnumerator RepositionPlatform()
     {
-        if (player.position.z > nextSpawnPosition.z - (platformLength * initialPlatforms / 2))
+        while (true)
         {
-            SpawnPlatform();
-        }
+            if (player.position.z > nextSpawnPosition.z - (platformLength * initialPlatforms / 2))
+            {
+                SpawnPlatform();
+            }
 
-        yield return null;
+            yield return new WaitForSeconds(checkPerSecond);
+        }
     }
 
     private void SpawnPlatform()
