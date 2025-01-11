@@ -25,12 +25,13 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float fixedForwardMagnitude = 60f;
 
     [Header("Bounce Amount")] 
-    [SerializeField] private float bounceAmount;
+    [SerializeField] private float bounceMultiplier = 3f;
 
     
     private float gravity;
     
     private bool isFlying;
+    private bool isBounced = false;
     
     private Tween newTween;
 
@@ -39,6 +40,14 @@ public class CharacterMovement : MonoBehaviour
     private void OnEnable()
     {
         SetDefaultGravityValue();
+        isBounced = false;
+    }
+
+    public void ResetKinematicsAndGravity()
+    {
+        rb.isKinematic = true;
+        rb.isKinematic = false;
+        rb.useGravity = false;
     }
 
     private void Update()
@@ -89,5 +98,13 @@ public class CharacterMovement : MonoBehaviour
     public void SetDefaultGravityValue()
     {
         gravity = defaultGravity;
+    }
+
+    public void ApplyBounce(Vector3 direction)
+    {
+        if(isBounced) return;
+        isBounced = true;
+        rb.useGravity = true;
+        rb.AddForce(direction * velocity.magnitude * bounceMultiplier, ForceMode.Impulse);
     }
 }

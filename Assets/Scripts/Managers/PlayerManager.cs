@@ -3,10 +3,19 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header("CharacterMovement")]
     [SerializeField] private CharacterMovement characterMovement;
+    
+    [Header("RotateMovement")]
     [SerializeField] private RotateMovement rotateMovement;
+    
+    [Header("FlyMovement")]
     [SerializeField] private FlyMovement flyMovement;
+    
+    [Header("CharacterCollision")]
     [SerializeField] private CharacterCollision characterCollision;
+    
+    [Header("Stick Resources")]
     [SerializeField] private Transform topOfStick;
     [SerializeField] private StickThrowMechanics stick;
     
@@ -43,6 +52,7 @@ public class PlayerManager : MonoBehaviour
     private void HandleInGame()
     {
         AttachCharacterToStick();
+        characterMovement.ResetKinematicsAndGravity();
         characterCollision.enabled = true;
     }
 

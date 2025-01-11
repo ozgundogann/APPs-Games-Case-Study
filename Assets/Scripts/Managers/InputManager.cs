@@ -4,11 +4,6 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private Transform UIObject;
-    
-    private bool isSwiping = false;
-    private float swipeThreshold = 50f;
-    private bool isTouchHold;
 
     public static event Action<Vector2> OnTouchBegin;
     public static event Action OnTouchEnd;
@@ -63,7 +58,6 @@ public class InputManager : MonoBehaviour
             case TouchPhase.Ended:
                 if(!isTouchBeganInvoked) break;
                 isTouchBeganInvoked = false;
-                
                 HandleTouchEnded(touch);
                 break;
             case TouchPhase.Moved:
@@ -85,15 +79,12 @@ public class InputManager : MonoBehaviour
     {
         TouchEndPos = touch.position;
         OnTouchEnd?.Invoke();
-        isTouchHold = false;
     }
 
     private void HandleTouchBegan(Touch touch)
     {
         TouchStartPos = touch.position;
         CurrentTouchPos = touch.position;
-
-        isTouchHold = true;
         OnTouchBegin?.Invoke(touch.position);
     }
 

@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.Serialization;
 
 public class PlatformBoost : Platform

@@ -9,7 +9,21 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private float defaultBlendTime = 0.5f;
 
-    private Transform followingTransform;
+    [SerializeField] private Transform followingTransform;
+    
+    public static CameraController Instance { get; private set; }
+
+    private void Awake() 
+    {
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(this); 
+        } 
+        else 
+        { 
+            Instance = this; 
+        } 
+    }
     
     private void OnEnable()
     {
@@ -28,7 +42,7 @@ public class CameraController : MonoBehaviour
             case GameStates.NONE:
                 break;
             case GameStates.INGAME:
-                //HandleInGame();
+                HandleInGame();
                 break;
             case GameStates.GAMEOVER:
                 HandleGameOver();
@@ -40,15 +54,24 @@ public class CameraController : MonoBehaviour
 
     private void HandleInGame()
     {
-        cineMachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
         followingCamera.Follow = followingTransform;
         followingCamera.LookAt = followingTransform;
     }
 
     private void HandleGameOver()
     {
-        followingTransform = followingCamera.Follow;
         followingCamera.Follow = null;
         followingCamera.LookAt = null;
+        SetCameraBlendCut();
+    }
+
+    public void SetCameraBlendCut()
+    {
+        cineMachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
+    }
+
+    public void SetDefaultBlend()
+    {
+        cineMachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
     }
 }
