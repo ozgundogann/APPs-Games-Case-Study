@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 7651930902582833305}
   - component: {fileID: 7386176856405914189}
   - component: {fileID: 1567072688847504440}
-  - component: {fileID: 726136753713029499}
   m_Layer: 7
   m_Name: CylinderPlatform
   m_TagString: BoostPlatform
@@ -151,34 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77ea07ebf4b4b20af11ff9dd447f90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulse: 100
---- !u!54 &726136753713029499
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7511406302432035423}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  impulse: 80
 --- !u!1 &7989758751658110461
 GameObject:
   m_ObjectHideFlags: 0
