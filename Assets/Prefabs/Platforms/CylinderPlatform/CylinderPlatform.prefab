@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77ea07ebf4b4b20af11ff9dd447f90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulse: 60
+  impulse: 100
 --- !u!54 &726136753713029499
 Rigidbody:
   m_ObjectHideFlags: 0

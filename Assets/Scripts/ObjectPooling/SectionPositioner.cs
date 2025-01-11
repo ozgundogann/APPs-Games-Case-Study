@@ -1,50 +1,46 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SectionPositioner : MonoBehaviour
 {
     [SerializeField] private PoolManager poolManager;
-    [SerializeField] private Transform platformTransform;
+    [SerializeField] private Transform platformGround;
     
     [SerializeField] private Transform player; 
     [SerializeField] private int initialPlatforms = 5;
 
-    [SerializeField] private int checkPerSecond = 10;
+    [SerializeField] private int checkPerSecond = 3;
+    
     
     private float platformLength;
     private Vector3 nextSpawnPosition;
     private Coroutine newRoutine;
-    private void Start()
+
+    private void OnEnable()
     {
-        platformLength = platformTransform.localScale.z;
+        platformLength = platformGround.localScale.z;
         
         for (int i = 0; i < initialPlatforms; i++)
         {
             SpawnPlatform();
         }
-
+    
         newRoutine = StartCoroutine(RepositionPlatform());
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        StopCoroutine(newRoutine);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SpawnPlatform();
-        }
+        if(newRoutine != null)
+            StopCoroutine(newRoutine);
     }
 
     private IEnumerator RepositionPlatform()
     {
         while (true)
         {
-            if (player.position.z > nextSpawnPosition.z - (platformLength * initialPlatforms / 2))
+            if (player.position.z > nextSpawnPosition.z - platformLength * initialPlatforms / 2)
             {
                 SpawnPlatform();
             }
@@ -56,7 +52,8 @@ public class SectionPositioner : MonoBehaviour
     private void SpawnPlatform()
     {
         var platform = poolManager.GetPlatform();
-        platform.transform.position = nextSpawnPosition;
+        platform.gameObject.transform.position = nextSpawnPosition;
         nextSpawnPosition += Vector3.forward * platformLength; 
+        platform.InvokeEvent();
     }
 }

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 2257766954527610809}
-  rotateMovement: {fileID: 0}
+  bounceForce: 10
   rb: {fileID: 6747089117205029204}
 --- !u!114 &7193437597620355727
 MonoBehaviour:
@@ -147,15 +147,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aafc3d4d8154144a47aafa6ed227874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 50
-  maxRotationAngle: 45
   leanAngle: 30
   rotationSpeed: 50
-  leanSpeed: 5
   rollSpeed: 5
   characterMesh: {fileID: 5289988041434556863}
   dynamicJoystick: {fileID: 0}
-  characterMovement: {fileID: 2257766954527610809}
 --- !u!114 &2327551331929915957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,12 +178,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a62ec85fa70954a9fa3b9d008ccee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultGravity: -14.715
-  gravityReduceRate: 0.2
-  Gravity: 0
   velocity: {x: 0, y: 0, z: 0}
   decreaseRate: 0.5
+  defaultGravity: -18.639
+  gravityReduceRate: 0.2
   rb: {fileID: 6747089117205029204}
+  fixedForwardMagnitude: 60
 --- !u!1001 &5095045230882009083
 PrefabInstance:
   m_ObjectHideFlags: 0

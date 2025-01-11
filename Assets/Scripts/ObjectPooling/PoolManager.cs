@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    [SerializeField] private GameObject platformPrefab; 
+    [SerializeField] private Section platformPrefab; 
     [SerializeField] private int poolSize = 4;
-    private Queue<GameObject> platformPool = new Queue<GameObject>();
+    private Queue<Section> platformPool = new Queue<Section>();
 
-    private void Awake()
+    private void OnEnable()
     {
         for (int i = 0; i < poolSize; i++)
         {
             var platform = Instantiate(platformPrefab, transform);
-            platform.SetActive(false); 
             platformPool.Enqueue(platform);
         }
-
-        Debug.Log(platformPool.Count);
     }
 
-    public GameObject GetPlatform()
+    public Section GetPlatform()
     {
         var platform = platformPool.Dequeue();
-        platform.SetActive(true);
         platformPool.Enqueue(platform);
         return platform;
     }
