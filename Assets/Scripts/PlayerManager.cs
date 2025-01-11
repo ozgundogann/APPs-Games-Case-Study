@@ -6,6 +6,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private CharacterMovement characterMovement;
     [SerializeField] private RotateMovement rotateMovement;
     [SerializeField] private FlyMovement flyMovement;
+    [SerializeField] private CharacterCollision characterCollision;
+    [SerializeField] private Transform topOfStick;
+    [SerializeField] private StickThrowMechanics stick;
+    
+    
+    
 
     private void OnEnable()
     {
@@ -23,10 +29,8 @@ public class PlayerManager : MonoBehaviour
         {
             case GameStates.NONE:
                 break;
-            case GameStates.STARTGAME:
-                HandleStartGame();
-                break;
             case GameStates.INGAME:
+                HandleInGame();
                 break;
             case GameStates.GAMEOVER:
                 HandleGameOver();
@@ -36,16 +40,18 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void HandleStartGame()
+    private void HandleInGame()
     {
-        EnableScripts();
+        AttachCharacterToStick();
+        characterCollision.enabled = true;
     }
 
-    private void EnableScripts()
+    private void AttachCharacterToStick()
     {
-        characterMovement.enabled = true;
-        rotateMovement.enabled = true;
-        flyMovement.enabled = true;
+        Transform characterTransform;
+        (characterTransform = characterMovement.transform).SetParent(topOfStick);
+        characterTransform.localPosition = Vector3.zero;
+        characterTransform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void HandleGameOver()
@@ -58,6 +64,6 @@ public class PlayerManager : MonoBehaviour
         characterMovement.enabled = false;
         rotateMovement.enabled = false;
         flyMovement.enabled = false;
-        Debug.Log("Disable");
+        characterCollision.enabled = false;
     }
 }

@@ -4,14 +4,11 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    private GameStates currentGameState;
+    [SerializeField] private GameStates currentGameState;
 
 
     public static event Action<GameStates> OnGameStateChange;
-
     public static GameManager Instance { get; private set; }
-
-    public GameStates CurrentGameState => currentGameState;
 
     
     private void Awake()
@@ -26,9 +23,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        TriggerInGame();
+    }
+
     public void TriggerStartGame()
     {
-        ChangeGameState(GameStates.STARTGAME);
+        TriggerInGame();
     }
 
     public void TriggerInGame()
