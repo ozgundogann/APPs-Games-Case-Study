@@ -101,7 +101,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         Vector3 randomPosition = new Vector3(
             Random.Range(minPosition.x, maxPosition.x),
-            0,
+            Random.Range(-10,0),
             Random.Range(minPosition.z, maxPosition.z)
         );
         return randomPosition;

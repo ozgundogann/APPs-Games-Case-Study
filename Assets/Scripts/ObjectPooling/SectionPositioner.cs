@@ -11,22 +11,24 @@ public class SectionPositioner : MonoBehaviour
     [SerializeField] private Transform player; 
     [SerializeField] private int initialPlatforms = 5;
 
-    [SerializeField] private int checkPerSecond = 3;
+    [SerializeField] private int checkPerSecond = 1;
     
     
     private float platformLength;
-    private Vector3 nextSpawnPosition;
+    [SerializeField] private Vector3 nextSpawnPosition;
     private Coroutine newRoutine;
 
     private void OnEnable()
     {
         platformLength = platformGround.localScale.z;
+        nextSpawnPosition = Vector3.zero;
         
         for (int i = 0; i < initialPlatforms; i++)
         {
+            Debug.Log("işliyorum");
+
             SpawnPlatform();
         }
-    
         newRoutine = StartCoroutine(RepositionPlatform());
     }
 

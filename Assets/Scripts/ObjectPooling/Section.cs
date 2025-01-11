@@ -7,14 +7,12 @@ public class Section : MonoBehaviour
     
 
     public event Action OnLocationChange;
-    public void InvokeEvent()
-    {
-        OnLocationChange?.Invoke();
-    }
+    
 
     private void OnEnable()
     {
         GameManager.OnGameStateChange += ListenGameStates;
+        transform.position = Vector3.zero;
     }
 
     private void OnDisable()
@@ -39,6 +37,11 @@ public class Section : MonoBehaviour
         }
     }
 
+    public void InvokeEvent()
+    {
+        OnLocationChange?.Invoke();
+    }
+    
     private void HandleInGame()
     {
         objectSpawner.enabled = true;
