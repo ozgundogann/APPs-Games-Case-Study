@@ -5,9 +5,7 @@ public class ChargingState : IPlayerStateNode
     public void EnterState(StateManager stateManager)
     {
         InitializeChargingState(stateManager);
-
-        AttachCharacterToStick(stateManager);
-
+        stateManager.characterMesh.rotation = Quaternion.Euler(Vector3.zero);
         stateManager.firstCamera.Priority = 20;
     }
 
@@ -17,7 +15,6 @@ public class ChargingState : IPlayerStateNode
 
     public void ExitState(StateManager stateManager)
     {
-        stateManager.stickThrowMechanics.enabled = false;
         stateManager.firstCamera.Priority = 0;
 
         DetachCharacterFromStick(stateManager);
@@ -25,16 +22,10 @@ public class ChargingState : IPlayerStateNode
 
     private static void InitializeChargingState(StateManager stateManager)
     {
-        stateManager.stickThrowMechanics.enabled = true;
         stateManager.currentPlayerState = PlayerStates.CHARGING;
     }
 
-    private static void AttachCharacterToStick(StateManager stateManager)
-    {
-        GameObject gameObject;
-        (gameObject = stateManager.characterMovement.gameObject).transform.SetParent(stateManager.topOfStick);
-        gameObject.transform.localPosition = Vector3.zero;
-    }
+    
 
     private static void DetachCharacterFromStick(StateManager stateManager)
     {

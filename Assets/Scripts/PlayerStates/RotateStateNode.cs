@@ -1,4 +1,4 @@
-﻿public class RollingStateNode : IPlayerStateNode
+﻿public class RotateStateNode : IPlayerStateNode
 {
     public void EnterState(StateManager stateManager)
     {
