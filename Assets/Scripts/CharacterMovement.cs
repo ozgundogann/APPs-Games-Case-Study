@@ -24,12 +24,17 @@ public class CharacterMovement : MonoBehaviour
     [Header("Flight Resources")] 
     [SerializeField] private float fixedForwardMagnitude = 60f;
 
+    [Header("Bounce Amount")] 
+    [SerializeField] private float bounceAmount;
+
     
     private float gravity;
     
     private bool isFlying;
     
     private Tween newTween;
+
+    public Vector3 Velocity => velocity;
 
     private void OnEnable()
     {
