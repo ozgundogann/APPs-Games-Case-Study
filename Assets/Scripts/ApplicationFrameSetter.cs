@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ApplicationFrameSetter : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         Application.targetFrameRate = 60;
     }
