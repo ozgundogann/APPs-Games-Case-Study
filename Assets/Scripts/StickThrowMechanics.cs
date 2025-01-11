@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Collections;
 using UnityEngine;
 
@@ -18,16 +19,37 @@ public class StickThrowMechanics : MonoBehaviour
     private Coroutine newRoutine;
 
 
+    
     private void OnEnable()
     {
-        InputManager.OnTouchBegin += HandleTouchBegin;
-        InputManager.OnTouchEnd += HandleTouchEnd;
+        GameManager.OnGameStateChange += ListenGameStates;
     }
 
     private void OnDisable()
     {
-        InputManager.OnTouchBegin -= HandleTouchBegin;
-        InputManager.OnTouchEnd -= HandleTouchEnd;
+        GameManager.OnGameStateChange -= ListenGameStates;
+    }
+
+    private void ListenGameStates(GameStates newState)
+    {
+        switch (newState)
+        {
+            case GameStates.NONE:
+                break;
+            case GameStates.INGAME:
+                HandleInGame();
+                break;
+            case GameStates.GAMEOVER:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+        }
+    }
+
+    private void HandleInGame()
+    {
+        InputManager.OnTouchBegin += HandleTouchBegin;
+        InputManager.OnTouchEnd += HandleTouchEnd;
     }
 
     private void Update()
@@ -56,9 +78,9 @@ public class StickThrowMechanics : MonoBehaviour
 
     private void HandleTouchEnd()
     {
+        isTouching = false;
         velocity = new Vector3(0, animationProgress * throwingVelocity.y,
             animationProgress * throwingVelocity.z);
-        isTouching = false;
         PlayReleaseAnim();
     }
     
@@ -69,13 +91,16 @@ public class StickThrowMechanics : MonoBehaviour
         if (newRoutine != null)
             StopCoroutine(newRoutine);
 
-        newRoutine = StartCoroutine(DelayRelease());
+        newRoutine = StartCoroutine(ReleaseWithDelay());
+        
+        InputManager.OnTouchBegin -= HandleTouchBegin;
+        InputManager.OnTouchEnd -= HandleTouchEnd;
     }
 
-    private IEnumerator DelayRelease()
+    private IEnumerator ReleaseWithDelay()
     {
         yield return new WaitForSeconds(fixedTransitionDuration);
-        StateManager.Instance.ChangeStateNode(new RollingStateNode());
+        StateManager.Instance.ChangeStateNode(new RotateStateNode());
         StateManager.Instance.characterMovement.ThrowPlayerFromStick(velocity);
     }
 }
