@@ -18,6 +18,8 @@ public class ChargingState : IPlayerStateNode
         stateManager.firstCamera.Priority = 0;
 
         DetachCharacterFromStick(stateManager);
+        
+        CameraController.Instance.SetDefaultBlend();
     }
 
     private static void InitializeChargingState(StateManager stateManager)

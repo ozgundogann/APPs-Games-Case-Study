@@ -5,22 +5,27 @@ using UnityEngine.Serialization;
 
 public class StateManager : MonoBehaviour
 {
-    [Header("Cameras")] public CinemachineVirtualCamera firstCamera;
-    public CinemachineVirtualCamera followingCamera;
+    [Header("Camera")] 
+    public CinemachineVirtualCamera firstCamera;
 
+    [Header("FlyMovement")] 
     public FlyMovement flyMovement;
-
-    public RotateMovement rotateMovement;
-
+    
+    [Header("PlayerState")] 
     public PlayerStates currentPlayerState;
-
+    
+    [Header("Animator")] 
     public Animator animator;
-
+    
+    [Header("CharacterMovement")] 
     public CharacterMovement characterMovement;
 
+    [Header("characterMesh")] 
     public Transform characterMesh;
 
-
+    [Header("RotateMovement")] 
+    public RotateMovement rotateMovement;
+    
     private IPlayerStateNode _currentPlayerStateNode;
 
     public static StateManager Instance { get; private set; }
@@ -76,6 +81,9 @@ public class StateManager : MonoBehaviour
     {
         InputManager.OnTouchBegin -= HandleTouchBegin;
         InputManager.OnTouchEnd -= HandleOnTouchEnd;
+
+        if (currentPlayerState != PlayerStates.ROLLING)
+            ChangeStateNode(new RotateStateNode());
     }
 
     private void HandleOnTouchEnd()

@@ -10,6 +10,7 @@ public class FlyingStateNode : IPlayerStateNode
         InitializeFlyingState(stateManager);
         ApplyJumpLandingEffects(stateManager);
     }
+    
 
     public void UpdateState(StateManager stateManager)
     {
